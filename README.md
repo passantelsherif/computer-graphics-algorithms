@@ -38,7 +38,9 @@ Classic midpoint line drawing algorithm optimized for integer arithmetic. Demons
 
 **Key Formula:**
 d = Δx - 2Δy (initial decision parameter)
+
 dd1 = 2Δx - 2Δy (diagonal step increment)
+
 dd2 = -2Δy (horizontal step increment)
 
 
@@ -102,6 +104,7 @@ Where:
 
 Curve evaluation:
 x(t) = α₀ + α₁·t + α₂·t² + α₃·t³
+
 y(t) = β₀ + β₁·t + β₂·t² + β₃·t³ (0 ≤ t ≤ 1)
 
 
