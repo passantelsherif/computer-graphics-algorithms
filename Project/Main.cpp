@@ -18,6 +18,7 @@ using namespace std;
 #include "Shapes/Ellipse.h"
 #include "Shapes/Curve.h"
 
+
 // ============ Menu command IDs =============
 #define FILE_CLEAR       1001
 #define FILE_SAVE        1002
@@ -50,6 +51,8 @@ using namespace std;
 #define CLIP_RECTPOLYGON   8003
 #define CLIP_SQPOINT       8004
 #define CLIP_SQLINE        8005
+#define CLIP_CIRCLEPOINT   8006
+#define CLIP_CIRCLELINE    8007
 
 // ============== Data Structures ==================
 enum ShapeType { SHAPE_LINE, SHAPE_CIRCLE, SHAPE_ELLIPSE, SHAPE_CURVE };
@@ -76,6 +79,7 @@ int currCommand = 0;
 
 ClippingWindow rectWindow = { 150, 100, 650, 500 };
 ClippingWindow squareWindow = { 200, 100, 600, 500 };
+CircleClippingWindow circleWindow = { 400, 300, 150 };  // center(400,300), radius 150
 vector<Vertex> clipPolygonPoints;
 
 // ================ Helper functions ================
@@ -288,6 +292,9 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT mcode, WPARAM wp, LPARAM lp)
         AppendMenu(hClippingMenu, MF_SEPARATOR, 0, NULL);
         AppendMenu(hClippingMenu, MF_STRING, CLIP_SQPOINT, L"Square Window - Point");
         AppendMenu(hClippingMenu, MF_STRING, CLIP_SQLINE, L"Square Window - Line");
+        AppendMenu(hClippingMenu, MF_SEPARATOR, 0, NULL);
+        AppendMenu(hClippingMenu, MF_STRING, CLIP_CIRCLEPOINT, L"Circle Window - Point");
+        AppendMenu(hClippingMenu, MF_STRING, CLIP_CIRCLELINE, L"Circle Window - Line");
         AppendMenu(hMenuBar, MF_POPUP, (UINT_PTR)hClippingMenu, L"Clipping");
 
         SetMenu(hwnd, hMenuBar);
@@ -455,7 +462,8 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT mcode, WPARAM wp, LPARAM lp)
         }
 
         // --- CLIPPING ---
-        if (currCommand >= CLIP_RECTPOINT && currCommand <= CLIP_SQLINE) {
+                // --- CLIPPING ---
+        if (currCommand >= CLIP_RECTPOINT && currCommand <= CLIP_CIRCLELINE) {
             ClippingWindow cw = (currCommand == CLIP_SQPOINT || currCommand == CLIP_SQLINE) ? squareWindow : rectWindow;
 
             if (currCommand == CLIP_RECTPOINT || currCommand == CLIP_SQPOINT) {
@@ -475,6 +483,26 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT mcode, WPARAM wp, LPARAM lp)
                 clipPolygonPoints.push_back(Vertex(x, y));
                 SetPixel(hdc, x, y, RGB(255, 0, 0));
                 printf("Polygon vertex added. Right click to clip.\n");
+            }
+            // ===== circle clipping
+            else if (currCommand == CLIP_CIRCLEPOINT) {
+                SetPixel(hdc, x, y, RGB(255, 0, 0));
+                PointClippingCircle(x, y, circleWindow, hdc, col);
+                printf("Circle clipping - Point: (%d, %d)\n", x, y);
+            }
+            else if (currCommand == CLIP_CIRCLELINE) {
+                static int circleLineClicks = 0;
+                static int clx1c, cly1c;
+                SetPixel(hdc, x, y, RGB(255, 0, 0));
+                circleLineClicks++;
+                if (circleLineClicks == 1) {
+                    clx1c = x; cly1c = y;
+                    printf("Circle line clipping - P1: (%d, %d). Click P2.\n", clx1c, cly1c);
+                }
+                else {
+                    CircleLineClipping(hdc, clx1c, cly1c, x, y, circleWindow, col);
+                    circleLineClicks = 0;
+                }
             }
         }
 
@@ -512,6 +540,10 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT mcode, WPARAM wp, LPARAM lp)
         if (currCommand >= CLIP_RECTPOINT && currCommand <= CLIP_SQLINE) {
             ClippingWindow cw = (currCommand == CLIP_SQPOINT || currCommand == CLIP_SQLINE) ? squareWindow : rectWindow;
             DrawWindow(hdc, cw, RGB(150, 150, 150));
+        }
+        //draw circle clipping window if active
+        else if (currCommand == CLIP_CIRCLEPOINT || currCommand == CLIP_CIRCLELINE) {
+            DrawCircleMidpoint(hdc, circleWindow.centerX, circleWindow.centerY, circleWindow.radius,RGB(0,0,0));
         }
 
         EndPaint(hwnd, &ps);

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Clipping\CircleClipping.cpp" />
     <ClCompile Include="Clipping\ClippingMain.cpp" />
     <ClCompile Include="Clipping\ClippingUtils.cpp" />
     <ClCompile Include="Clipping\LineClipping.cpp" />

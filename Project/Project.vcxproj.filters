@@ -102,6 +102,9 @@
     <ClCompile Include="Shapes\CircleMod.cpp">
       <Filter>Shapes</Filter>
     </ClCompile>
+    <ClCompile Include="Clipping\CircleClipping.cpp">
+      <Filter>Clipping</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Filling\Fill.h">
