@@ -13,19 +13,69 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Shapes">
+      <UniqueIdentifier>{2fc27dc8-8fcf-4295-8f65-75a38cd49bfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Filling">
+      <UniqueIdentifier>{e53f628a-9915-42d2-9654-831ed326bd73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Clipping">
+      <UniqueIdentifier>{ac586a91-022a-4c79-b1ef-aa853dc0a979}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BresLine.cpp">
+    <ClCompile Include="Filling\FloodFillNonRecursive.cpp">
+      <Filter>Filling</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\BresLine.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\curve.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Filling\FloodFillRecursive.cpp">
+      <Filter>Filling</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\CircleBresenham.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\CirclePolar.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\CircleUtils.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="circle.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Clipping\PointClipping.cpp">
+      <Filter>Clipping</Filter>
     </ClCompile>
-    <ClCompile Include="curve.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Clipping\LineClipping.cpp">
+      <Filter>Clipping</Filter>
     </ClCompile>
-    <ClCompile Include="floodPolygon.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Clipping\PolygonClipping.cpp">
+      <Filter>Clipping</Filter>
     </ClCompile>
+    <ClCompile Include="Clipping\ClippingUtils.cpp">
+      <Filter>Clipping</Filter>
+    </ClCompile>
+    <ClCompile Include="Clipping\ClippingMain.cpp">
+      <Filter>Clipping</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Shapes\Lines.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Filling\Fill.h">
+      <Filter>Filling</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\Circle.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Clipping\Clipping.h">
+      <Filter>Clipping</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -19,10 +19,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BresLine.cpp" />
-    <ClCompile Include="circle.cpp" />
-    <ClCompile Include="curve.cpp" />
-    <ClCompile Include="floodPolygon.cpp" />
+    <ClCompile Include="Clipping\ClippingMain.cpp" />
+    <ClCompile Include="Clipping\ClippingUtils.cpp" />
+    <ClCompile Include="Clipping\LineClipping.cpp" />
+    <ClCompile Include="Clipping\PointClipping.cpp" />
+    <ClCompile Include="Clipping\PolygonClipping.cpp" />
+    <ClCompile Include="Filling\FloodFillNonRecursive.cpp" />
+    <ClCompile Include="Filling\FloodFillRecursive.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Shapes\BresLine.cpp" />
+    <ClCompile Include="Shapes\CircleBresenham.cpp" />
+    <ClCompile Include="Shapes\CirclePolar.cpp" />
+    <ClCompile Include="Shapes\CircleUtils.cpp" />
+    <ClCompile Include="Shapes\curve.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Clipping\Clipping.h" />
+    <ClInclude Include="Filling\Fill.h" />
+    <ClInclude Include="Shapes\Circle.h" />
+    <ClInclude Include="Shapes\Lines.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
