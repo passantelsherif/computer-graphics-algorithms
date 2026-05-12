@@ -1,5 +1,4 @@
 #include"Fill.h"
-#include <Windows.h>
 
 #include <stack>
 

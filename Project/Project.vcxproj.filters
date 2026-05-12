@@ -30,9 +30,6 @@
     <ClCompile Include="Shapes\BresLine.cpp">
       <Filter>Shapes</Filter>
     </ClCompile>
-    <ClCompile Include="Shapes\curve.cpp">
-      <Filter>Shapes</Filter>
-    </ClCompile>
     <ClCompile Include="Filling\FloodFillRecursive.cpp">
       <Filter>Filling</Filter>
     </ClCompile>
@@ -44,9 +41,6 @@
     </ClCompile>
     <ClCompile Include="Shapes\CircleUtils.cpp">
       <Filter>Shapes</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Clipping\PointClipping.cpp">
       <Filter>Clipping</Filter>
@@ -63,11 +57,53 @@
     <ClCompile Include="Clipping\ClippingMain.cpp">
       <Filter>Clipping</Filter>
     </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\Ellipse.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Filling\FillCircleCircles.cpp">
+      <Filter>Filling</Filter>
+    </ClCompile>
+    <ClCompile Include="Filling\FillCircleWithLines.cpp">
+      <Filter>Filling</Filter>
+    </ClCompile>
+    <ClCompile Include="Filling\FillSquareHermiteVertical.cpp">
+      <Filter>Filling</Filter>
+    </ClCompile>
+    <ClCompile Include="Filling\FillRectangleBezier.cpp">
+      <Filter>Filling</Filter>
+    </ClCompile>
+    <ClCompile Include="Filling\PolyFillConvex.cpp">
+      <Filter>Filling</Filter>
+    </ClCompile>
+    <ClCompile Include="Filling\PolyFillNonConvex.cpp">
+      <Filter>Filling</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\Curve.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\LineDDA.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\LineParametric.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\CircleDirect.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\CircleIterPolar.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\CircleMidpoint.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\CircleMod.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Shapes\Lines.h">
-      <Filter>Shapes</Filter>
-    </ClInclude>
     <ClInclude Include="Filling\Fill.h">
       <Filter>Filling</Filter>
     </ClInclude>
@@ -76,6 +112,15 @@
     </ClInclude>
     <ClInclude Include="Clipping\Clipping.h">
       <Filter>Clipping</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\Ellipse.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\Curve.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\Lines.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

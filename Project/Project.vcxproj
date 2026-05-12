@@ -24,19 +24,34 @@
     <ClCompile Include="Clipping\LineClipping.cpp" />
     <ClCompile Include="Clipping\PointClipping.cpp" />
     <ClCompile Include="Clipping\PolygonClipping.cpp" />
+    <ClCompile Include="Filling\FillCircleCircles.cpp" />
+    <ClCompile Include="Filling\FillCircleWithLines.cpp" />
+    <ClCompile Include="Filling\FillRectangleBezier.cpp" />
+    <ClCompile Include="Filling\FillSquareHermiteVertical.cpp" />
     <ClCompile Include="Filling\FloodFillNonRecursive.cpp" />
     <ClCompile Include="Filling\FloodFillRecursive.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Filling\PolyFillConvex.cpp" />
+    <ClCompile Include="Filling\PolyFillNonConvex.cpp" />
     <ClCompile Include="Shapes\BresLine.cpp" />
     <ClCompile Include="Shapes\CircleBresenham.cpp" />
+    <ClCompile Include="Shapes\CircleDirect.cpp" />
+    <ClCompile Include="Shapes\CircleIterPolar.cpp" />
+    <ClCompile Include="Shapes\CircleMidpoint.cpp" />
+    <ClCompile Include="Shapes\CircleMod.cpp" />
     <ClCompile Include="Shapes\CirclePolar.cpp" />
     <ClCompile Include="Shapes\CircleUtils.cpp" />
-    <ClCompile Include="Shapes\curve.cpp" />
+    <ClCompile Include="Shapes\Curve.cpp" />
+    <ClCompile Include="Shapes\Ellipse.cpp" />
+    <ClCompile Include="Shapes\LineDDA.cpp" />
+    <ClCompile Include="Shapes\LineParametric.cpp" />
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Clipping\Clipping.h" />
     <ClInclude Include="Filling\Fill.h" />
     <ClInclude Include="Shapes\Circle.h" />
+    <ClInclude Include="Shapes\Curve.h" />
+    <ClInclude Include="Shapes\Ellipse.h" />
     <ClInclude Include="Shapes\Lines.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

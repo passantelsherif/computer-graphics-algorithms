@@ -13,3 +13,9 @@ void DrawCircleBresenham(HDC hdc, int xc, int yc, int R, COLORREF color);
 void DrawCircleMidpoint(HDC hdc, int xc, int yc, int R, COLORREF color);
 //circle polar
 void DrawCirclePolar(HDC hdc, int xc, int yc, int R, COLORREF color);
+
+void DrawCircleDirect(HDC hdc, int xc, int yc, int R, COLORREF c);
+
+void DrawCircleIterPolar(HDC hdc, int xc, int yc, int R, COLORREF c);
+
+void DrawCircleMod(HDC hdc, int xc, int yc, int R, COLORREF c);

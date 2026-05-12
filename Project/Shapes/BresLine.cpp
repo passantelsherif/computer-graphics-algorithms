@@ -2,7 +2,7 @@
 #include <Windows.h>
 #include <cmath>
 
-// Generalized Bresenham's Line Algorithm (Handles ALL slopes and directions)
+// Generalized Bresenham's Line Algorithm
 void bresenhamLine(HDC hdc, int x1, int y1, int x2, int y2, COLORREF color) {
     int dx = abs(x2 - x1);
     int dy = abs(y2 - y1);
