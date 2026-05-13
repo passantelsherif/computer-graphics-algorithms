@@ -10,17 +10,22 @@ void Draw4Points(HDC hdc, int xc, int yc, int x, int y, COLORREF c)
     SetPixel(hdc, xc + x, yc - y, c);
 }
 
-void DrawEllipseDirect(HDC hdc, int xc, int yc, int a, int b, COLORREF c)
-{
+void DrawEllipseDirect(HDC hdc, int xc, int yc, int a, int b, COLORREF c) {
     int x = 0;
-    int y = b;
+    double y = b;
     Draw4Points(hdc, xc, yc, x, y, c);
-
-    while (x < a)
-    {
+    while (b * b * x < a * a * y) { //slope<1
         x++;
-        y = (int)round(b * sqrt(1.0 - (double)(x * x) / (a * a)));
-        Draw4Points(hdc, xc, yc, x, y, c);
+        y = b * sqrt(1.0 - (double)x * x / (a * a));
+        Draw4Points(hdc, xc, yc, x, round(y), c);
+    }
+    double x1 = a;
+    int y1 = 0;
+    Draw4Points(hdc, xc, yc, x1, y1, c);
+    while (b * b * x1 > a * a * y1) { //slope>1
+        y1++;
+        x1 = a * sqrt(1.0 - (double)y1 * y1 / (b * b));
+        Draw4Points(hdc, xc, yc, round(x1), y1, c);
     }
 }
 
