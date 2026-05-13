@@ -22,6 +22,9 @@
     <Filter Include="Clipping">
       <UniqueIdentifier>{ac586a91-022a-4c79-b1ef-aa853dc0a979}</UniqueIdentifier>
     </Filter>
+    <Filter Include="faces">
+      <UniqueIdentifier>{679abf2a-7b21-4ff7-a867-5bb211174213}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Filling\FloodFillNonRecursive.cpp">
@@ -105,6 +108,12 @@
     <ClCompile Include="Clipping\CircleClipping.cpp">
       <Filter>Clipping</Filter>
     </ClCompile>
+    <ClCompile Include="faces\happy.cpp">
+      <Filter>faces</Filter>
+    </ClCompile>
+    <ClCompile Include="faces\sad.cpp">
+      <Filter>faces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Filling\Fill.h">
@@ -124,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="Shapes\Lines.h">
       <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="faces\faces.h">
+      <Filter>faces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

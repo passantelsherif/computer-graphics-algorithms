@@ -17,6 +17,7 @@ using namespace std;
 #include "Shapes/Circle.h"
 #include "Shapes/Ellipse.h"
 #include "Shapes/Curve.h"
+#include "faces/faces.h"
 
 
 // ============ Menu command IDs =============
@@ -53,6 +54,8 @@ using namespace std;
 #define CLIP_SQLINE        8005
 #define CLIP_CIRCLEPOINT   8006
 #define CLIP_CIRCLELINE    8007
+#define HAPPY_FACE         9001
+#define SAD_FACE           9002
 
 // ============== Data Structures ==================
 enum ShapeType { SHAPE_LINE, SHAPE_CIRCLE, SHAPE_ELLIPSE, SHAPE_CURVE };
@@ -297,6 +300,11 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT mcode, WPARAM wp, LPARAM lp)
         AppendMenu(hClippingMenu, MF_STRING, CLIP_CIRCLELINE, L"Circle Window - Line");
         AppendMenu(hMenuBar, MF_POPUP, (UINT_PTR)hClippingMenu, L"Clipping");
 
+        HMENU hFacesMenu = CreatePopupMenu();
+        AppendMenu(hFacesMenu, MF_STRING, HAPPY_FACE, L"Happy Face");
+        AppendMenu(hFacesMenu, MF_STRING, SAD_FACE, L"Sad Face");
+        AppendMenu(hMenuBar, MF_POPUP, (UINT_PTR)hFacesMenu, L"Faces");
+
         SetMenu(hwnd, hMenuBar);
         break;
     }
@@ -310,7 +318,7 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT mcode, WPARAM wp, LPARAM lp)
         else if (currCommand == PREF_CURSORSHAPE) ChangeCursorShape(hwnd);
         else if (currCommand == PREF_CHOOSECOLOR) ChooseColorRGB(hwnd);
 
-        InvalidateRect(hwnd, NULL, TRUE);
+        //InvalidateRect(hwnd, NULL, TRUE);
         break;
 
     case WM_LBUTTONDOWN:
@@ -505,6 +513,37 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT mcode, WPARAM wp, LPARAM lp)
                 }
             }
         }
+
+        //faces
+
+        static int faceClicks = 0;
+        static int faceX, faceY;
+        if (currCommand == HAPPY_FACE || currCommand == SAD_FACE) {
+            faceClicks++;
+            if (faceClicks == 1) {
+                faceX = x; faceY = y;
+                printf("Center: (%d,%d). Click point for radius.\n", faceX, faceY);
+            }
+            else {
+               
+                int R = (int)sqrt((double)((x - faceX) * (x - faceX) + (y - faceY) * (y - faceY)));
+
+                HDC hdc = GetDC(hwnd);
+                COLORREF col = RGB(currColor.r, currColor.g, currColor.b);
+
+                if (currCommand == HAPPY_FACE)
+                    DrawHappyFace(hdc, faceX, faceY, R, col);
+                else
+                    DrawSadFace(hdc, faceX, faceY, R, col);
+
+                ReleaseDC(hwnd, hdc);
+
+               
+                printf("Face drawn.\n");
+                faceClicks = 0;
+            }
+        }
+
 
         ReleaseDC(hwnd, hdc);
         break;
