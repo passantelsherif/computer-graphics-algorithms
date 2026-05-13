@@ -77,12 +77,8 @@ struct CircleClippingWindow {
 void PointClippingCircle(int x, int y, const CircleClippingWindow& circle,
     HDC hdc, COLORREF color);
 
-void CircleLineClipping(HDC hdc, int x1, int y1, int x2, int y2,
-    const CircleClippingWindow& circle, COLORREF color);
 
 double DistanceFromPoint(int x, int y, int cx, int cy);
 
-bool FindLineCircleIntersections(int x1, int y1, int x2, int y2,
-    const CircleClippingWindow& circle,
-    double& t1, double& t2);
-
+void CircleLineClipping(HDC hdc, int x1, int y1, int x2, int y2,
+    const CircleClippingWindow& circle, COLORREF color);

@@ -11,6 +11,7 @@ void Draw4Points(HDC hdc, int xc, int yc, int x, int y, COLORREF c)
 }
 
 void DrawEllipseDirect(HDC hdc, int xc, int yc, int a, int b, COLORREF c) {
+    //region 1 : x from 0 to a, slope < 1
     int x = 0;
     double y = b;
     Draw4Points(hdc, xc, yc, x, y, c);
@@ -19,6 +20,7 @@ void DrawEllipseDirect(HDC hdc, int xc, int yc, int a, int b, COLORREF c) {
         y = b * sqrt(1.0 - (double)x * x / (a * a));
         Draw4Points(hdc, xc, yc, x, round(y), c);
     }
+    //region 2 : y from 0 to b slope > 1
     double x1 = a;
     int y1 = 0;
     Draw4Points(hdc, xc, yc, x1, y1, c);
@@ -31,10 +33,10 @@ void DrawEllipseDirect(HDC hdc, int xc, int yc, int a, int b, COLORREF c) {
 
 void DrawEllipsePolar(HDC hdc, int xc, int yc, int a, int b, COLORREF c)
 {
-    double dtheta = 1.0 / (a > b ? a : b);
+    double dtheta = 1.0 / (a > b ? a : b); // step size based on radius
     double theta = 0;
 
-    while (theta <= 1.57)
+    while (theta <= 1.57) //1.57 is equal to pi/2 (quarter circle)
     {
         int x = (int)round(a * cos(theta));
         int y = (int)round(b * sin(theta));
@@ -48,19 +50,20 @@ void DrawEllipseMidpoint(HDC hdc, int xc, int yc, int a, int b, COLORREF c)
     int x = 0, y = b;
     int a2 = a * a, b2 = b * b;
 
-    // Region 1
-    int d = (int)(b2 - a2 * b + 0.25 * a2);
+    // Region 1 => slope<1
+    int d = (int)(b2 - a2 * b + 0.25 * a2); //decision parameter
     int dx = 2 * b2 * x;
     int dy = 2 * a2 * y;
 
-    while (dx < dy)
+    while (dx < dy) // slope < 1
     {
         Draw4Points(hdc, xc, yc, x, y, c);
         x++;
-        dx += 2 * b2;
-        if (d < 0)
+        dx += 2 * b2; //increment dx
+
+        if (d < 0) // midpoint inside ellipse
             d += dx + b2;
-        else
+        else //midpoint outside
         {
             y--;
             dy -= 2 * a2;

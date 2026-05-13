@@ -1,3 +1,4 @@
+
 #include "Clipping.h"
 #include <stack>
 
@@ -66,7 +67,7 @@ void SutherlandHodgmanClipping(HDC hdc, std::vector<Vertex>& polygon,
         if (inputList.empty()) break;
 
         outputList.clear();
-        Vertex prevVertex = inputList.back();
+        Vertex prevVertex = inputList.back(); // to connect the last point to the first point
 
         for (const auto& currVertex : inputList)
         {
@@ -100,6 +101,7 @@ void SutherlandHodgmanClipping(HDC hdc, std::vector<Vertex>& polygon,
             {
                 if (!prevInside)
                 {
+                    //outside -> inside
                     // Entering the inside region, add intersection point
                     Vertex intersection;
                     if (edge == 0 || edge == 1)
@@ -109,11 +111,13 @@ void SutherlandHodgmanClipping(HDC hdc, std::vector<Vertex>& polygon,
 
                     outputList.push_back(intersection);
                 }
+                //inside -> inside
                 // Add current vertex
                 outputList.push_back(currVertex);
             }
             else if (prevInside)
             {
+                //inside -> outside
                 // Leaving the inside region, add intersection point
                 Vertex intersection;
                 if (edge == 0 || edge == 1)
@@ -124,7 +128,7 @@ void SutherlandHodgmanClipping(HDC hdc, std::vector<Vertex>& polygon,
                 outputList.push_back(intersection);
             }
 
-            prevVertex = currVertex;
+            prevVertex = currVertex; //move to the next line 
         }
 
         inputList = outputList;

@@ -24,21 +24,27 @@ using namespace std;
 #define FILE_CLEAR       1001
 #define FILE_SAVE        1002
 #define FILE_LOAD        1003
+
 #define PREF_BGWHITE     2001
 #define PREF_CURSORSHAPE 2002
 #define PREF_CHOOSECOLOR 2003
+
 #define LINE_DDA          3001
 #define LINE_MIDPOINT     3002
 #define LINE_PARAMETRIC   3003
+
 #define CIRCLE_DIRECT     4001
 #define CIRCLE_POLAR      4002
 #define CIRCLE_ITERPOLAR  4003
 #define CIRCLE_MIDPOINT   4004
 #define CIRCLE_MODMID     4005
+
 #define ELLIPSE_DIRECT    5001
 #define ELLIPSE_POLAR     5002
 #define ELLIPSE_MIDPOINT  5003
+
 #define CARDINAL_SPLINE   6001
+
 #define FILL_CIRCLELINES   7001
 #define FILL_CIRCLECIRCLES 7002
 #define FILL_SQHERMIT      7003
@@ -47,6 +53,7 @@ using namespace std;
 #define FILL_NON_CONVEX    7006
 #define FILL_FLOOD         7007
 #define FILL_FLOOD_REC     7008
+
 #define CLIP_RECTPOINT     8001
 #define CLIP_RECTLINE      8002
 #define CLIP_RECTPOLYGON   8003
@@ -54,6 +61,7 @@ using namespace std;
 #define CLIP_SQLINE        8005
 #define CLIP_CIRCLEPOINT   8006
 #define CLIP_CIRCLELINE    8007
+
 #define HAPPY_FACE         9001
 #define SAD_FACE           9002
 
@@ -76,7 +84,7 @@ struct ShapeData {
 };
 
 // ================= Globals ==================
-vector<ShapeData> shapes;
+vector<ShapeData> shapes; // to store every object created
 Color currColor(0, 0, 0);
 int currCommand = 0;
 
@@ -134,14 +142,14 @@ bool SaveToFile(HWND hwnd) {
     if (!file.is_open()) return false;
 
     file << shapes.size() << "\n";
-    for (const ShapeData& s : shapes) {
+    for (const ShapeData& s : shapes) { //loop through each shape and save it
         file << s.type << " " << s.color.r << " " << s.color.g << " " << s.color.b << " "
             << s.x1 << " " << s.y1 << " " << s.x2 << " " << s.y2 << " "
             << s.hRadius << " " << s.vRadius << " " << s.pointsCount;
 
-        if (s.type == SHAPE_CURVE) {
+        if (s.type == SHAPE_CURVE) { // handling for curves , they have multiple points
             file << " " << s.curvePoints.size();
-            for (const POINT& pt : s.curvePoints) file << " " << pt.x << " " << pt.y;
+            for (const POINT& pt : s.curvePoints) file << " " << pt.x << " " << pt.y; //write each point (x,y)
         }
         file << "\n";
     }
@@ -151,35 +159,39 @@ bool SaveToFile(HWND hwnd) {
 }
 
 bool LoadFromFile(HWND hwnd) {
-    string filepath = OpenFileDialog(hwnd, false);
+    string filepath = OpenFileDialog(hwnd, false); // get file name
     if (filepath.empty()) return false;
 
-    ifstream file(filepath);
+    ifstream file(filepath); // open it to read
     if (!file.is_open()) return false;
 
-    shapes.clear();
+    shapes.clear(); // empty current shapes
     int count;
     file >> count;
 
     for (int i = 0; i < count; i++) {
         ShapeData s;
         int typeInt;
-        file >> typeInt;
-        s.type = (ShapeType)typeInt;
+        file >> typeInt; //read type as int
+        s.type = (ShapeType)typeInt; //convert to enum
+        //read color
         file >> s.color.r >> s.color.g >> s.color.b;
+        //read coordinates
         file >> s.x1 >> s.y1 >> s.x2 >> s.y2;
+        //read radius and count
         file >> s.hRadius >> s.vRadius >> s.pointsCount;
 
+        //if curve read the points
         if (s.type == SHAPE_CURVE && s.pointsCount > 0) {
             int ptCount;
             file >> ptCount;
             for (int j = 0; j < ptCount; j++) {
                 POINT pt;
                 file >> pt.x >> pt.y;
-                s.curvePoints.push_back(pt);
+                s.curvePoints.push_back(pt); //add to curve's curve point vector
             }
         }
-        shapes.push_back(s);
+        shapes.push_back(s); // add shape to the vector
     }
     file.close();
     printf("Loaded %d shapes\n", count);
@@ -189,31 +201,31 @@ bool LoadFromFile(HWND hwnd) {
 
 // ================= Preferences Operations ===================
 void ChangeBGWhite(HWND hwnd) {
-    SetClassLongPtr(hwnd, GCLP_HBRBACKGROUND, (LONG_PTR)GetStockObject(WHITE_BRUSH));
+    SetClassLongPtr(hwnd, GCLP_HBRBACKGROUND, (LONG_PTR)GetStockObject(WHITE_BRUSH)); // windows api function
     InvalidateRect(hwnd, NULL, TRUE);
     printf("Background changed to white.\n");
 }
 
 void ChangeCursorShape(HWND hwnd) {
-    static int cursorIndex = 0;
-    LPCSTR cursorNames[] = { (LPCSTR)IDC_CROSS, (LPCSTR)IDC_HAND, (LPCSTR)IDC_HELP, (LPCSTR)IDC_IBEAM, (LPCSTR)IDC_ARROW };
+    static int cursorIndex = 0; //first cursor (default)
+    LPCSTR cursorNames[] = { (LPCSTR)IDC_CROSS, (LPCSTR)IDC_HAND, (LPCSTR)IDC_HELP, (LPCSTR)IDC_IBEAM, (LPCSTR)IDC_ARROW }; //all cursors
     const int numCursors = 5;
-    HCURSOR cursor = LoadCursorA(NULL, cursorNames[cursorIndex]);
+    HCURSOR cursor = LoadCursorA(NULL, cursorNames[cursorIndex]); // load it from the array
     SetClassLongPtr(hwnd, GCLP_HCURSOR, (LONG_PTR)cursor);
-    cursorIndex = (cursorIndex + 1) % numCursors;
+    cursorIndex = (cursorIndex + 1) % numCursors; // to wrap around each time so not exceeding 5
 }
 
 void ChooseColorRGB(HWND hwnd) {
-    CHOOSECOLORA cc;
-    static COLORREF acrCustClr[16];
-    ZeroMemory(&cc, sizeof(cc));
+    CHOOSECOLORA cc; //color chooser struct
+    static COLORREF acrCustClr[16]; //to save custom colors
+    ZeroMemory(&cc, sizeof(cc)); //clear the struct
     cc.lStructSize = sizeof(cc);
     cc.hwndOwner = hwnd;
-    cc.lpCustColors = (LPDWORD)acrCustClr;
-    cc.rgbResult = RGB(currColor.r, currColor.g, currColor.b);
+    cc.lpCustColors = (LPDWORD)acrCustClr; //custom colors palette
+    cc.rgbResult = RGB(currColor.r, currColor.g, currColor.b); // current color
     cc.Flags = CC_FULLOPEN | CC_RGBINIT;
 
-    if (ChooseColorA(&cc)) {
+    if (ChooseColorA(&cc)) { //show dialog
         currColor.r = GetRValue(cc.rgbResult);
         currColor.g = GetGValue(cc.rgbResult);
         currColor.b = GetBValue(cc.rgbResult);
@@ -318,14 +330,14 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT mcode, WPARAM wp, LPARAM lp)
         else if (currCommand == PREF_CURSORSHAPE) ChangeCursorShape(hwnd);
         else if (currCommand == PREF_CHOOSECOLOR) ChooseColorRGB(hwnd);
 
-        //InvalidateRect(hwnd, NULL, TRUE);
+        InvalidateRect(hwnd, NULL, TRUE);
         break;
 
     case WM_LBUTTONDOWN:
     {
         int x = LOWORD(lp);
         int y = HIWORD(lp);
-        COLORREF col = RGB(currColor.r, currColor.g, currColor.b);
+        COLORREF col = RGB(currColor.r, currColor.g, currColor.b); // these colors where set by ChooseColorRGB()
         hdc = GetDC(hwnd);
 
         // --- LINES ---
@@ -566,13 +578,17 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT mcode, WPARAM wp, LPARAM lp)
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hwnd, &ps);
 
-        // Draw Saved Shapes
+        // loop through all saved shapes and redraw them
         for (const ShapeData& shape : shapes) {
             COLORREF c = RGB(shape.color.r, shape.color.g, shape.color.b);
-            if (shape.type == SHAPE_CIRCLE) DrawCircleMidpoint(hdc, shape.x1, shape.y1, shape.hRadius, c);
-            else if (shape.type == SHAPE_ELLIPSE) DrawEllipseMidpoint(hdc, shape.x1, shape.y1, shape.hRadius, shape.vRadius, c);
-            else if (shape.type == SHAPE_CURVE) DrawCardinalSpline(hdc, shape.curvePoints, 0.5, c);
-            else if (shape.type == SHAPE_LINE) bresenhamLine(hdc, shape.x1, shape.y1, shape.x2, shape.y2, c);
+            if (shape.type == SHAPE_CIRCLE)
+                DrawCircleMidpoint(hdc, shape.x1, shape.y1, shape.hRadius, c);
+            else if (shape.type == SHAPE_ELLIPSE)
+                DrawEllipseMidpoint(hdc, shape.x1, shape.y1, shape.hRadius, shape.vRadius, c);
+            else if (shape.type == SHAPE_CURVE)
+                DrawCardinalSpline(hdc, shape.curvePoints, 0.5, c);
+            else if (shape.type == SHAPE_LINE)
+                bresenhamLine(hdc, shape.x1, shape.y1, shape.x2, shape.y2, c);
         }
 
         // Draw active clipping window

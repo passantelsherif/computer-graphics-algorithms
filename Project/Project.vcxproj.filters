@@ -57,9 +57,6 @@
     <ClCompile Include="Clipping\ClippingUtils.cpp">
       <Filter>Clipping</Filter>
     </ClCompile>
-    <ClCompile Include="Clipping\ClippingMain.cpp">
-      <Filter>Clipping</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
